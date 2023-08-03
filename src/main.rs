@@ -2,6 +2,7 @@ use ansi_term::*;
 
 #[derive(Copy, Clone, PartialEq, Eq, Debug)]
 pub enum Status {
+    Unknown,
     Absent,
     Misplaced,
     Correct,
@@ -40,9 +41,10 @@ pub fn show_result(result: Vec<Letter>) {
     let mut styles: Vec<Style> = vec![Colour::White.normal();5];
     for (i, (c,s)) in result.iter().enumerate() {
         styles[i] = match s {
-            Status::Absent => Color::White.normal().dimmed().on(Color::Black),
+            Status::Unknown   => Color::White.normal().dimmed().on(Color::Black),
+            Status::Absent    => Color::Blue.normal().dimmed().on(Color::Black),
             Status::Misplaced => Color::White.normal().bold().on(Color::Yellow),
-            Status::Correct => Color::White.normal().bold().on(Color::Green),
+            Status::Correct   => Color::White.normal().bold().on(Color::Green),
         };
         print!("{}",styles[i].paint(c.to_string()));
     }
